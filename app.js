@@ -15,15 +15,7 @@ var scoreSchema = new mongoose.Schema({
 
 var Scoreboard = mongoose.model("Scoreboard", scoreSchema);
 
-// var highscore = [
-//     {name: "Tony", score: "0"},
-//     {name: "Miranda", score: "1"},
-//     {name: "Justin", score: "2"}
-// ]
 
-
-// var friends = ["Tony", "Miranda", "Justin", "Pierre", "Lily"];
-// var scores = ["0", "1", "2", "3", "4"];
 
 
 
@@ -31,9 +23,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
  
-// app.get('/', function (req, res) {
-//   res.send('Hello World')
-// })
+
 
 app.set("view engine", "ejs");
 
@@ -55,8 +45,7 @@ app.get("/scoreboard", function(req, res){
 });
 
 app.post("/scoreboard", function(req, res){
-    // res.send("You hit the post route!")
-    // get data from form and add to campgrounds array
+ 
     var name = req.body.name;
     var image= req.body.image;
     var newScoreboard = {name: name, image: image}
@@ -72,9 +61,7 @@ app.post("/scoreboard", function(req, res){
     
 });
 
-// Pass they data through the res.render call
-// {campgrounds:campgrounds}
-// {Name we want to give it(Anything we want):Data we're passing in}
+
 
 
 app.get("/scoreboard/new", function(req, res){
