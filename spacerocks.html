@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139556814-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139556814-1');
+</script>
+
+
+    <title>Space Rocks</title>
+</head>
+
+<body>
+    <canvas id="mycanvas" width="700" height="500"style="border:2px solid Black"></canvas>
+
+    <script> 
+        //These are variables. You declare variables when you create the JavaScript program.
+        var canvas = document.getElementById("mycanvas");
+        var ctx = canvas.getContext("2d");
+        var SpaceshipxCoordinate = 230;
+        var SpaceshipyCoordinate = 310;
+        var spaceShipRadius = 20;
+        var MeteorxCoordinate = 400;
+        var MeteoryCoordinate = 490;
+        var Meteorx = 400;
+        var Meteory = 490;
+        var speedMeteormovesRight = 1;
+        var speedMeteormovesUp = 1;
+        var meteorRadius = 10;
+        speed = 20;
+        score = 0;
+
+
+            function difficulty() {
+                if (score >= 5){
+                     speedMeteormovesRight = 2;
+                     speedMeteormovesUp = 2;
+                     createMeteor2();
+                     speed = 40;
+                }
+            }
+
+            function createSpaceship() {
+                        ctx.beginPath();
+                        ctx.arc(SpaceshipxCoordinate, SpaceshipyCoordinate, spaceShipRadius, 0, Math.PI*2, true);
+                        ctx.fillStyle = "Gray";
+                        ctx.fill();
+                        ctx.closePath();
+        }
+
+            function reset() {
+                        SpaceshipxCoordinate = canvas.width - 470;
+                        SpaceshipyCoordinate = canvas.height-190;
+                        spaceShipRadius = 20;
+                        MeteorxCoordinate = 400;
+                        MeteoryCoordinate = 490;
+                        speedMeteormovesRight = 1;
+                        speedMeteormovesUp = 1;
+                        meteorRadius = 10;
+                        score = 0;
+                        greenRockcoordinates();
+                }
+
+            function spaceShipboundaryCross(){
+                        if (SpaceshipxCoordinate < 20) {
+                                SpaceshipxCoordinate = canvas.width - 30;
+                            } else if (SpaceshipxCoordinate > 670) {
+                                SpaceshipxCoordinate = 40;
+                            }
+                            
+                            if (SpaceshipyCoordinate < 25) {
+                                SpaceshipyCoordinate = 470;
+                            } else if (SpaceshipyCoordinate > 475) {
+                                SpaceshipyCoordinate = 26;
+                            }
+                }
+
+            function greenRockcoordinates(){ 
+                    rock = {
+                      x: Math.floor(Math.random() * 600),
+                      y: Math.floor(Math.random() * 400)
+                    }}
+
+            greenRockcoordinates();
+
+            function createGreenrock () {
+            
+                      ctx.fillStyle = 'green';
+                      ctx.fillRect(rock.x, rock.y, 20, 20);
+                }
+
+
+            function collectRock() {
+                    if(SpaceshipxCoordinate+20 > rock.x && SpaceshipxCoordinate < rock.x+20*1.5 && SpaceshipyCoordinate > rock.y && SpaceshipyCoordinate < rock.y+20*1.8 )
+                    {
+                    greenRockcoordinates();
+                    createGreenrock();
+                    score++;
+                    }           
+                }
+
+
+            function drawScore() {
+                    ctx.font = "16px Arial";
+                    ctx.fillStyle = "Red";
+                    ctx.fillText("Score: "+score, 310, 20);
+                 }
+
+
+
+            function createMeteor() {
+                    ctx.beginPath();
+                    ctx.arc(MeteorxCoordinate, MeteoryCoordinate, meteorRadius, 0, Math.PI*2);
+                    ctx.fillStyle = "Red";
+                    ctx.fill();
+                    ctx.closePath();
+                
+                    MeteorxCoordinate += speedMeteormovesRight;
+                    MeteoryCoordinate -= speedMeteormovesUp;
+                }
+            function createMeteor2() {
+                    ctx.beginPath();
+                    ctx.arc(Meteorx , Meteory, meteorRadius, 0, Math.PI*2);
+                    ctx.fillStyle = "Red";
+                    ctx.fill();
+                    ctx.closePath();
+                
+                    Meteorx += speedMeteormovesRight;
+                    Meteory -= speedMeteormovesUp;
+                }
+
+            function meteorBoundarycross(){
+                        if (MeteorxCoordinate < 0 - meteorRadius) {
+                            MeteorxCoordinate = canvas.width + meteorRadius;
+                        } else if (MeteorxCoordinate > canvas.width + meteorRadius) {
+                            MeteorxCoordinate = 0 - meteorRadius;
+                        }
+                        if (MeteoryCoordinate < 0 - meteorRadius) {
+                            MeteoryCoordinate = canvas.height + meteorRadius;
+                        } else if (MeteoryCoordinate > canvas.height + meteorRadius) {
+                            MeteoryCoordinate = 0 - meteorRadius;
+                        }
+}
+
+                    function meteorBoundarycross2(){
+                        if (Meteorx < 0 - meteorRadius) {
+                            Meteorx = canvas.width + meteorRadius;
+                        } else if (Meteorx > canvas.width + meteorRadius) {
+                            Meteorx = 0 - meteorRadius;
+                        }
+                        if (Meteory < 0 - meteorRadius) {
+                            Meteory = canvas.height + meteorRadius;
+                        } else if (Meteory > canvas.height + meteorRadius) {
+                            Meteory = 0 - meteorRadius;
+                        }
+                }
+
+            function meteorCrashSpaceship() {
+                        if( 
+                        SpaceshipxCoordinate+10 > MeteorxCoordinate && SpaceshipxCoordinate+10 < MeteorxCoordinate+20*1.5 && SpaceshipyCoordinate > MeteoryCoordinate && SpaceshipyCoordinate < MeteoryCoordinate+20*1.8)
+                        {
+                            
+                            alert("Game Over! Score is " + score);
+                            
+                            reset();
+                            mainFunction();
+                }
+            }
+
+
+            function mainFunction() {
+                        ctx.fillStyle = "black";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height); 
+                        drawScore();
+                        difficulty();
+                        createSpaceship();
+                        createMeteor();
+                        spaceShipboundaryCross();
+                        meteorBoundarycross();
+                        meteorBoundarycross2();
+                        createGreenrock();
+                        collectRock();
+                        meteorCrashSpaceship();
+                        }
+
+        
+
+            setInterval(function(){ mainFunction(); }, .001);
+
+
+
+            addEventListener("keydown", function(){
+                    if (event.keyCode === 37) { 
+                       SpaceshipxCoordinate -= speed;}
+                    });
+                        //up
+            addEventListener("keydown", function(){
+                    if (event.keyCode === 38) {
+                       SpaceshipyCoordinate -= speed; }
+                    });
+                    //right
+            addEventListener("keydown", function(){
+                    if (event.keyCode === 39) { 
+                        SpaceshipxCoordinate += speed;}
+                    });
+                        //down
+            addEventListener("keydown", function(){
+                    if (event.keyCode === 40) {
+                        SpaceshipyCoordinate += speed; }
+                    });
+            addEventListener("keydown", function(){
+                    if (event.keyCode === 57) {
+                        score += 100; }
+                    });
+
+
+
+
+        
+
+</script>
+
+
+
+
+<br>
+(Use Left/Right/Up/Down arrow keys to play)
+<br>
+
+<p><a href="https://robwgleason.com/space_rocks_tutorial.html">Tutorial on how to make the game.</a></p>
+</body>
+
+</html>
